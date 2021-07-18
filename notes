@@ -1,0 +1,72 @@
+//----- 1. 安裝 -----//
+npm install webpack -D
+npm install -D webpack-cli
+npm install -D webpack-dev-server
+
+- loader
+npm install --save-dev css-loader
+npm install --save-dev babel-loader @babel/core
+npm install @babel/preset-env --save-dev (babel loader需要的)
+
+npm install --save-dev style-loader (style-loader 是inline style 少用)
+
+-plugin
+npm install --save-dev html-webpack-plugin
+npm install --save-dev mini-css-extract-plugin
+
+
+
+
+//----- 2. webpack.config -----//
+沒有用webpack.config的話，webpack是預設會把src/index.js當作入口
+- 入口：會把index.js裡所有的js變成一個js，放到dist裏面
+- package.json：
+"dev": "webpack serve" ------> 開一個伺服器，來看畫面
+
+
+//----- 3. loader -----//
+webpack預設是只能看懂js的，想要讓他讀懂css等，要去安裝loader
+安裝完後到webpack.config.js新增module，每個module代表不同規則
+
+- 例如
+表示看到所有.css檔案，都要用["style-loader", "css-loader"]去解析它
+module: {
+    rules: [
+      {
+        test: /\.css$/i,   ------> 表達式
+        test: /\.(css|scss)$/i,   ------> 表達式
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+
+
+//----- 3. plugin -----//
+- (1) 自動產生index.html, 裡面引入最新bundle的js
+使用html-webpack-plugin插件，他只知道要產生一個新html並引入js，所以html裡面會是空白
+要加一個template的設定
+
+- (2) css 插件
+會把css檔複製出一份到dist
+也可像js一樣給他一個hash值
+[new MiniCssExtractPlugin({
+    filename: "main.[hash].css"
+})]
+
+
+
+//----- 4. source-map -----//
+webpack裏面設定 devtool: 'source-map'
+build時就會多個 map.js / map.css
+devtool: 'source-map' 這樣在f12 source 看的時候才會顯示原碼，這樣才好debug
+
+
+
+//----- 5. webpack5的新東西 -----//
+Asset Modules: Asset Modules is a type of module that allows one to use asset files (fonts, icons, etc) without configuring additional loaders
+告訴webpack這是 png, gif...etc, 就不用loader了
+{
+  test: /\.png/,
+  type: 'asset/resource'
+}
+
