@@ -1,3 +1,6 @@
+教學
+https://awdr74100.github.io/2020-02-17-webpack-install/
+
 //----- 1. 安裝 -----//
 npm install webpack -D
 npm install -D webpack-cli
@@ -15,6 +18,8 @@ npm install --save-dev html-webpack-plugin
 npm install --save-dev mini-css-extract-plugin
 
 
+所有：
+npm install autoprefixer css-loader html-webpack-plugin mini-css-extract-plugin node-sass postcss-loader sass-loader -D
 
 
 //----- 2. webpack.config -----//
@@ -52,6 +57,9 @@ module: {
 [new MiniCssExtractPlugin({
     filename: "main.[hash].css"
 })]
+
+- (3) postcss 
+要自己新建一個 postcss.config.js 才行
 
 
 
